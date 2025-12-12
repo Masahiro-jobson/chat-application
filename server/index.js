@@ -31,6 +31,10 @@ io.on("connection", (socket) => {
         console.log(`User with ID: ${socket.id} joined room: ${data}` );
     })
 
+    socket.on("send_message", (data) => {
+        socket.to(data.room).emit("receive_message", data);
+
+    })
 // It runs automatically when the user is gone.
     socket.on("disconnect", () => {
         console.log("User Disconnected", socket.id);
