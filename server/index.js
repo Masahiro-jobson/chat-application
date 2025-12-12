@@ -15,7 +15,7 @@ const io = new Server(server, {
 // cors = a mechanism that allows web applications to access resources from different domains
     cors: {
 // origin tells our server which url (server) is called and making a call on our socke.io server
-        origin: "http://localhost:3000/",
+        origin: "http://localhost:3000",
         methods: ["GET", "POST"],
 
     },
@@ -24,7 +24,12 @@ const io = new Server(server, {
 // io.on listens certain event in the bracket.
 // connection is the event that detects if someone connected to this socket io server.
 io.on("connection", (socket) => {
-    console.log(socket.id);
+    console.log(`User Connected: ${socket.id}`);
+// pass through the frontend room id through this data variable
+    socket.on("join_room", (data) => {
+        socket.join(data);
+        console.log(`User with ID: ${socket.id} joined room: ${data}` );
+    })
 
 // It runs automatically when the user is gone.
     socket.on("disconnect", () => {
